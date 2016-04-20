@@ -26,6 +26,7 @@ public class verClientes extends javax.swing.JFrame {
         String Datos[][]={};
         modelo = new DefaultTableModel(Datos,cabecera);
       jTable1.setModel(modelo);
+
       
 }
     /**

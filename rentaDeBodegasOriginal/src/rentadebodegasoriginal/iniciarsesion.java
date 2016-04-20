@@ -5,8 +5,10 @@
  */
 package rentadebodegasoriginal;
 
+
 import java.util.Arrays;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 /**
@@ -14,7 +16,7 @@ import javax.swing.JTextField;
  * @author mariimorales
  */
 public class iniciarsesion extends javax.swing.JFrame {
-
+ boolean estadoFoco = false;
     /**
      * Creates new form iniciarsesion
      */
@@ -104,28 +106,33 @@ public class iniciarsesion extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        String usuario="marii";
-        char[]clave={'1','2','3'};
-        if(usuario.equals(jTextField1.getText())&& Arrays.equals(clave,jPasswordField1.getPassword()))
-        {
-              jLabel3.setText("correcto");
-   menuPrincipal bodegas=new menuPrincipal();
-  bodegas.setVisible(true);
-  dispose();
-              
+       
+        int valida = validaForma();
+        if(valida == 0) {
+            Usuario objUsuario = new Usuario();
+            if(objUsuario.validaUsuario(jTextField1.getText(), jPasswordField1.getPassword()) != 0)
+            {
+                menuPrincipal objmenuPrincipal = new menuPrincipal();
+                this.setVisible(false);
+                objmenuPrincipal.setVisible(true);
+            }
+            else {
+                JOptionPane.showMessageDialog(null,"nombre de usuario o contraseña incorrectos");
+               jTextField1.setText("");
+               jPasswordField1.setText("");
+               jTextField1.requestFocus();
         
-        }
-        else{
-            jLabel3.setText(" usuario o contraseña incorrectos");
-            jLabel3.setIcon(new ImageIcon("incorrecto.jpg"));
-           
-        
-        }
-          
-           
- 
+     }
     }//GEN-LAST:event_jButton1ActionPerformed
-
+else {
+            JOptionPane.showMessageDialog(null, "El nombre de usuario y contraseña son requeridos");
+            if(valida == 2)
+             jPasswordField1.requestFocus();
+            else
+               jTextField1.requestFocus(); 
+        }
+        
+    }
     /**
      * @param args the command line arguments
      */
@@ -160,7 +167,19 @@ public class iniciarsesion extends javax.swing.JFrame {
             }
         });
     }
-
+     public int validaForma() {
+        int controlFalta = 0;
+        //boolean correcto = false;
+        
+        if((jTextField1.getText().isEmpty()))
+            controlFalta += 1;
+        if((jPasswordField1.getPassword().length) == 0)
+            controlFalta +=2;
+         /*if(!(txtNomUsuario.getText().isEmpty()) && (txtPassword.getPassword().length) >0)
+            correcto = true;*/
+        
+        return controlFalta;
+     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
